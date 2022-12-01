@@ -1,0 +1,32 @@
+/*
+    Idea for function sentiment math:
+        Do multiple calculations by grouping similar factors
+        Ne -> Ne = 1.0 *(neuroticism) * (maturity levels) * (interests) * ...
+        WHERE groups = some percentage between 0.0 and 1.0 (or clamped values like 0.4 - 0.8 
+            for a group that will always have a large impact)
+
+        
+        TODO: Figure out the raw function to function values.
+         We're only using a few of these at first. We are trying to keep it as simple
+        as possible and only using function stuff, not the rest
+        ::ALL GROUPS::      Maxs:
+        (neuroticism)       
+        (maturity levels)   
+        (interests)
+        (self-centrality)
+        
+*/
+
+
+====READING QUERIES====
+//Read it like "I want all of the Names from the People"
+//              ":Query:<:&Name:, :With<Person>>:"
+//              V              
+//              ":Give me: :the <Component> from any entity,: 
+//                      :but entity MUST be a <Other Component>:"
+//              V
+//              "I want search to hold all of the <Names> from entities that are also <People>"
+fn print_people(search: Query<&Name, With<Person>>){
+
+"I want search to hold all of the <Names> from all entities that are also (<People>, with <S>)
+fn print_people(search: Query<&Name, (With<Person>,With<S>)>){
