@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-
 //mod person;
 /*NAMING: Named just N to represent one atomic element of a function.
 //N,S,T,F -> Names of elements
@@ -19,9 +18,15 @@ use bevy::prelude::*;
 struct N;
 #[derive(Debug, Component)]
 struct S;
-
 #[derive(Debug, Component)]
-struct Function(Component<N>,Component<S>);
+struct T;
+#[derive(Debug, Component)]
+struct F;
+
+// ^ Convert these to enums and use those for the type
+/* struct Type{
+    elements: Vec // Should be enum?
+} */
 
 #[derive(Debug, Component)]
 struct Person;
@@ -29,15 +34,31 @@ struct Person;
 #[derive(Debug, Component)]
 struct Name(String);
 
+#[derive(Debug,Resource)]
+struct SimTimer(Timer);
+//Interface for elements.
+trait Element{
+    fn is_observer(&self) -> bool;
+}
+impl Element for N{
+    fn is_observer(&self) -> bool{
+        true
+    }
+}
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .insert_resource(SimTimer(Timer::from_seconds(2.0, TimerMode::Repeating)))
         .add_startup_system(add_people)
-        .add_system(print_people)
+        .add_startup_system(print_people)
+        .add_system(sim_tick)
         .run();
 }
-fn sim_tick(){
-
+fn sim_tick(time: Res<Time>, mut timer: ResMut<SimTimer>){
+    if timer.0.tick(time.delta()).just_finished(){
+        println!("Tick");
+    }
 }
 //Move the mut to the type definition and see what happens.
 
