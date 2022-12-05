@@ -40,10 +40,6 @@ impl Type{
     }
 }
 
-// ^ Convert these to enums and use those for the type
-/* struct Type{
-    elements: Vec // Should be enum?
-} */
 
 #[derive(Debug, Component)]
 struct Person;
