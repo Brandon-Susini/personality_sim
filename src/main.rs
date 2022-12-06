@@ -70,6 +70,7 @@ impl TimeKeeper{
         self.ticks_passed += 1;
     }
 } */
+
 #[derive(Debug,Component)]
 struct TimeKeeper(i32);
 fn main() {
@@ -85,17 +86,24 @@ fn main() {
 fn start(mut commands: Commands){
     commands.spawn(TimeKeeper(0));
 }
+
 /*
     Potentially turn this if statement into a macro that takes an argument for the string to be printed.
     Look at the get_component_mut example and figure that out
-    */
+*/
 fn sim_tick(time: Res<Time>, mut timer: ResMut<SimTimer>, mut tk: Query<&mut TimeKeeper>){
     if timer.0.tick(time.delta()).just_finished(){
         //Every tick...
         for mut t in tk.iter_mut(){
             t.0 += 1;
             println!("Tick {}",t.0);
-            //tk.get_component_mut(entity)
+            tk.get_component_mut(&TimeKeeper);
+            //tk.get_component_mut(entity) Why was I doing this?
+            //Seconds passed? 
+            //I was building a clock that needs this value
+            //as the seconds. From there I would have other timers with different
+            //durations that correspond to minutes and hours. Then days etc..
+            //This could all be one struct called clock.
         }
     }
 }
