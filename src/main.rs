@@ -49,6 +49,13 @@ struct Name(String);
 
 #[derive(Debug,Resource)]
 struct SimTimer(Timer);
+
+#[derive(Debug,Component)]
+struct Clock{
+    seconds: u32,
+    minutes: u32,
+    hours: u32
+}
 //Interface for elements.
 /* trait Element{
     fn is_observer(&self) -> bool;
@@ -94,17 +101,20 @@ fn start(mut commands: Commands){
 fn sim_tick(time: Res<Time>, mut timer: ResMut<SimTimer>, mut tk: Query<&mut TimeKeeper>){
     if timer.0.tick(time.delta()).just_finished(){
         //Every tick...
-        for mut t in tk.iter_mut(){
+        //let time_keeper = tk.get_component_mut(TimeKeeper);
+        //time_keeper.0+=1;
+        println!("Tick {:?}", tk.matched_entities);
+        /* for mut t in tk.iter_mut(){
             t.0 += 1;
             println!("Tick {}",t.0);
-            tk.get_component_mut(&TimeKeeper);
+            
             //tk.get_component_mut(entity) Why was I doing this?
             //Seconds passed? 
             //I was building a clock that needs this value
             //as the seconds. From there I would have other timers with different
             //durations that correspond to minutes and hours. Then days etc..
             //This could all be one struct called clock.
-        }
+        } */
     }
 }
 //Move the mut to the type definition and see what happens.
